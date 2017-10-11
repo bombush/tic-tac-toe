@@ -208,7 +208,6 @@ class Game extends Component {
     let status;
     if (winner) {
       status = 'Winner: ' + winner.name;
-console.log(winner);
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
