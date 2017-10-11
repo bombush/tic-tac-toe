@@ -1,3 +1,7 @@
+Pokusna implementace piskvorek. V index.js mozno pres props zadat velikost platna (gridSize) a pocet vyhernich symbolu (squaresToWin).
+Defaultne nastaveno na 5x5 a 3 symboly v rade.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
