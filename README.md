@@ -1,6 +1,8 @@
 Pokusna implementace piskvorek. V index.js mozno pres props zadat velikost platna (gridSize) a pocet vyhernich symbolu (squaresToWin).
 Defaultne nastaveno na 5x5 a 3 symboly v rade.
 
+TODO: Refactorovat logiku hry z Game do GameLogic
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

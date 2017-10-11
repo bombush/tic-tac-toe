@@ -38,50 +38,89 @@ class Game extends Component {
     });
   }
 
+  /**
+   * @param {*} squares Board squares
+   * @param {*} index   square index to test
+   * 
+   * @return returns indexes of winning combination or empty array 
+   */
   checkHorizontalLine(squares, index) {
     // check horizontal line -
+    let winning = [index];
     for (let i = 1; i < this.props.squaresToWin; i++) {
       let testIndex = index+i;
+      winning.push(testIndex);
       if (!squares[testIndex] || squares[testIndex] != squares[index]) {
-        return false;
+        return [];
       }
     }
-    return true;
+    return winning;
   }
 
+  /**
+   * @param {*} squares Board squares
+   * @param {*} index   square index to test
+   * 
+   * @return returns indexes of winning combination or empty array 
+   */
   checkVerticalLine(squares, index) {
+    let winning = [index];
     for (let i = 1; i < this.props.squaresToWin; i++) {
       let testIndex = index+(i * this.props.gridSize);
+      winning.push(testIndex);
       if (!squares[testIndex] || squares[testIndex] != squares[index]) {
-        return false;
+        return [];
       }
     }
-    return true;
+    return winning;
   }
 
+  /**
+   * @param {*} squares Board squares
+   * @param {*} index   square index to test
+   * 
+   * @return returns indexes of winning combination or empty array 
+   */
   checkDiagonalLineDown(squares, index) {
     // check horizontal line \
+    let winning = [index];
     for (let i = 1; i < this.props.squaresToWin; i++) {
       let testIndex = index + i * (this.props.gridSize + 1);
+      winning.push(testIndex);
       if (!squares[testIndex] || squares[testIndex] != squares[index]) {
-        return false;
+        return [];
       }
     }
-    return true;
+    return winning;
   }
 
+  /**
+   * @param {*} squares Board squares
+   * @param {*} index   square index to test
+   * 
+   * @return returns indexes of winning combination or empty array 
+   */
   checkDiagonalLineUp(squares, index) {
-    // check horizontal line \
+    // check horizontal line /
+    let winning = [index];
     for (let i = 1; i < this.props.squaresToWin; i++) {
       let testIndex = index - i * (this.props.gridSize - 1);
+      winning.push(testIndex);
       if (!squares[testIndex] || squares[testIndex] != squares[index]) {
-        return false;
+        return [];
       }
     }
-    return true;
+    return winning;
   }
 
+  /**
+   * TODO refactor to GameLogic.js
+   * 
+   * @param {*} squares 
+   */
   calculateWinner(squares) {
+
+    let winner = null;
 
     // run through all squares
     for (let i = 0; i < squares.length; i++) {
@@ -96,20 +135,35 @@ class Game extends Component {
       let rowIndex = (i - colIndex) / this.props.gridSize
       if (this.props.gridSize - colIndex >= this.props.squaresToWin) {
 
-        if (this.checkHorizontalLine(squares, i)) {
-          return squares[i];
+        let winCombination = this.checkHorizontalLine(squares, i);
+        if (winCombination.length > 0) {
+          winner = {
+            name: squares[i],
+            squares: winCombination,
+          }
+          break;
         }
 
         // check diagonal down \
-        if (this.checkDiagonalLineDown(squares, i)) {
-          return squares[i];
+        winCombination = this.checkDiagonalLineDown(squares, i);
+        if (winCombination.length > 0) {
+          winner = {
+            name: squares[i],
+            squares: winCombination,
+          }
+          break;
         }
 
         // enough space to the top?
         if (rowIndex+1 >= this.props.squaresToWin) {
           // check diagonal up /
-          if (this.checkDiagonalLineUp(squares, i)) {
-            return squares[i];
+          winCombination = this.checkDiagonalLineUp(squares, i);
+          if (winCombination.length > 0) {
+            winner = {
+              name: squares[i],
+              squares: winCombination,
+            }
+            break;
           }
         }
 
@@ -119,14 +173,19 @@ class Game extends Component {
       if (this.props.gridSize - rowIndex >= this.props.squaresToWin) {
 
         // check vertical line |
-        if (this.checkVerticalLine(squares, i)) {
-          return squares[i];
+        let winCombination = this.checkVerticalLine(squares, i);
+        if (winCombination.length > 0) {
+          winner = {
+            name: squares[i],
+            squares: winCombination,
+          }
+          break;
         }
       }
 
     }
 
-    return null;
+    return winner;
   }
   
   render() {
@@ -148,7 +207,8 @@ class Game extends Component {
 
     let status;
     if (winner) {
-      status = 'Winner: ' + winner;
+      status = 'Winner: ' + winner.name;
+console.log(winner);
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -158,6 +218,7 @@ class Game extends Component {
         <div className="game-board">
           <Board 
             squares={current.squares}
+            winner={winner}
             gridSize={this.props.gridSize}
             onClick={(i) => this.handleClick(i)}
           />

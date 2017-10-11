@@ -28,6 +28,10 @@
   outline: none;
 }
 
+.square--winning {
+  color: red;
+}
+
 .kbd-navigation .square:focus {
   background: #ddd;
 }

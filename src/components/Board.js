@@ -4,11 +4,14 @@ import Square from './Square';
 export default class Board extends Component {
 
     renderSquare(i) {
-console.log('RenderSqare',i);
+
+      let isWinning = this.props.winner && this.props.winner.squares.indexOf(i) !== -1;
+
         return (
             <Square 
                 key={i}
                 value={this.props.squares[i]}
+                isWinning={isWinning}
                 onClick={() => this.props.onClick(i)}
             />
         );
