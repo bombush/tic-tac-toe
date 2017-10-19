@@ -1,0 +1,2 @@
+export const GRID_SIZE_CHANGE = 'GRID_SIZE_CHANGE::Config';
+export const VICTORY_NUMBER_CHANGE = 'VICTORY_NUMBER_CHANGE::Config';

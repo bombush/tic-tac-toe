@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import './Game.css';
-import Board from './components/Board';
+import Board from '../../components/Board';
 
 class Game extends Component {
   constructor(props) {
+    console.log('PROPS:', props);
+    
     super(props);
     this.state = {
       history: [{
@@ -12,6 +14,10 @@ class Game extends Component {
       stepNumber: 0,
       xIsNext: true,
     };
+  }
+
+  componentDidMount() {
+    this.props.gameInit([this.props.gridSize, this.props.gridSize]);
   }
 
   jumpTo(step) {
@@ -29,13 +35,15 @@ class Game extends Component {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
+
+    this.props.playerMove(this.state.xIsNext ? 'X' : 'O')(i);
+    /*this.setState({
       history: history.concat([{
         squares: squares,
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
-    });
+    });*/
   }
 
   checkHorizontalLine(squares, index) {
